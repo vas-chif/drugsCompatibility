@@ -1,0 +1,17 @@
+
+
+#Ignored the .idea folder and its content.
+.idea/
+
+#Ignored all  the folders that have the name "out".
+out/
+
+#Ignore all the files whit the estension ".iml".
+*.iml
+
+#Ignored the probe folder and its content.
+probe/
+
+#Ignore all the files whit the estension ".class".
+*.class
+ 
