@@ -6,11 +6,11 @@ import java.util.List;
 public interface IFunctionPostgreSqlPV {
     String host = "localhost";
     String port = "5432";
-    String database = "farmaci";
+    String database = "DrugsCompatibility";
     String user = "postgres";
     String pass = "root";
 
-    String nameTable = "farmaci";
+    String nameTable = "drugsCompatibility";
     String columnName = "name_of_drugs";
 
     void createTable(String tableName);

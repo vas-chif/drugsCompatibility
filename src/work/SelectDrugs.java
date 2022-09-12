@@ -15,7 +15,7 @@ public class SelectDrugs {
         String selectElement = "";
         String output = "";
 
-        output += "Select drugs of the list: " + originalList + "\nTo close the menu \"List drugs \"stop\"";
+        output += "To stop the selection, print \"stop\"";
 
         do {
             if (userInput.equalsIgnoreCase("no")) {
@@ -23,17 +23,17 @@ public class SelectDrugs {
             }// end if (userInput.equals("no"))
 
             do {
-                selectElement = JOptionPane.showInputDialog(output);
+                selectElement = JOptionPane.showInputDialog(null,output,"Select Drugs",JOptionPane.INFORMATION_MESSAGE);
 
                 boolean containsItem = containsElementIgnoreCase(originalList, selectElement, newList);
 
                 if (!containsItem && !selectElement.equalsIgnoreCase("stop"))
-                    JOptionPane.showMessageDialog(null, "Drug not exist in this list");
+                    JOptionPane.showMessageDialog(null, "Push \"ok\" to continue","Drug not exist in this list",JOptionPane.ERROR_MESSAGE);
 
             } while (!selectElement.equalsIgnoreCase("stop"));
 
-            String out = "Are the selected drugs correct? yes/no" + newList;
-            userInput = JOptionPane.showInputDialog(out);
+            String out = "All the selected drugs are correct? yes/no" + newList;
+            userInput = JOptionPane.showInputDialog(null, out, "Selected drugs",JOptionPane.QUESTION_MESSAGE);
 
         } while (!userInput.equalsIgnoreCase("yes"));
 
