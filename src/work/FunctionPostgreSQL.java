@@ -92,13 +92,10 @@ public class FunctionPostgreSQL implements IFunctionPostgreSqlPV {
             rs = statement.executeQuery(query);
 
             while (rs.next()) {
-                int count = 0;
                 String outContainTable = "";
-
 
                 for (String elment : columnList) {
                     outContainTable += rs.getString(elment) + "\t";
-                    count++;
                 }
                 output += "\n" + outContainTable;
 

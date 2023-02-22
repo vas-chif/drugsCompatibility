@@ -6,11 +6,11 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import static work.ControlDrugs.reformatString;
+import static work.ControlDrugs.compatibilityController;
 import static work.IFunctionPostgreSqlPV.*;
 
 public class DrugFilter extends JFrame {
-    DefaultListModel defaultListModel = new DefaultListModel();
+    private DefaultListModel defaultListModel = new DefaultListModel();
     private DefaultListModel filteredItemsToAddNewList = new DefaultListModel();
     private JFrame frame;
 
@@ -224,6 +224,7 @@ public class DrugFilter extends JFrame {
                                 .addContainerGap())
         );
     }// end method playLayout(JPanel jPanel, JScrollPane jScrollPane, JButton jButton)
+
     private void playLayoutChangeDimension(JPanel jPanel, JScrollPane jScrollPane, JButton jButton) {
         GroupLayout jPanelLayout = new GroupLayout(jPanel); // panelListForSelect 4 from 10
         jPanel.setLayout(jPanelLayout); // panelListForSelect 5 from 10
@@ -250,69 +251,6 @@ public class DrugFilter extends JFrame {
                                 .addContainerGap())
         );
     }// end method playLayout(JPanel jPanel, JScrollPane jScrollPane, JButton jButton)
-
-    static public String compatibilityController(DefaultListModel<String> selectedList) throws Exception {
-        String result = "";
-        String output = "";
-        String resultToReturn = "";
-
-        ArrayList<String> as = new ArrayList<>();
-        ArrayList<String> compatibleListDrugs = new ArrayList<>();
-        ArrayList<String> compatibleListDrugsOnTap = new ArrayList<>();
-        ArrayList<String> inCompatibleListDrugs = new ArrayList<>();
-        ArrayList<String> conflictingDataDrugs = new ArrayList<>();
-        ArrayList<String> noDataAvailableOfDrugs = new ArrayList<>();
-
-        for (int i = 0; i < selectedList.size(); i++) {
-            as.add(selectedList.getElementAt(i));
-        }
-
-
-        FunctionPostgreSQL fPSQL = new FunctionPostgreSQL(host, port, user, pass, database);
-
-        for (String sE : as) {
-            //System.out.println("select " + sE);
-            for (String e : as) {
-                // System.out.println("select " + e);
-                //System.out.println("selected " + sE + " compare to " + e);
-                result = fPSQL.readSpecificDate(nameTable, e, sE);
-                switch (result) {
-                    case "C":
-                        compatibleListDrugs.add(e);
-                        break;
-                    case "Y":
-                        compatibleListDrugsOnTap.add(e);
-                        break;
-                    case "I":
-                        inCompatibleListDrugs.add(e);
-                        break;
-                    case "!":
-                        conflictingDataDrugs.add(e);
-                        break;
-                    case "":
-                        noDataAvailableOfDrugs.add(e);
-                        break;
-                    default:
-                        System.out.println(String.format("Is same drugs %s and %s", sE, e));
-                }
-            }// end loop for for (String e : selectedList)
-            output = String.format("%s Is:\n\tcompatible whit: %s,\n\tcompatible on tap whit: %s,\n\tincompatible whit: %s," +
-                            "\n\tconflicting data drugs: %s,\n\tnot registration data whit: %s", sE, reformatString(compatibleListDrugs),
-                    reformatString(compatibleListDrugsOnTap), reformatString(inCompatibleListDrugs), reformatString(conflictingDataDrugs),
-                    reformatString(noDataAvailableOfDrugs));
-            resultToReturn += output + "\n";
-
-            compatibleListDrugs.clear();
-            compatibleListDrugsOnTap.clear();
-            inCompatibleListDrugs.clear();
-            conflictingDataDrugs.clear();
-            noDataAvailableOfDrugs.clear();
-        }// end loop for (String sE : selectedList)
-
-
-        return resultToReturn;
-    }// end method String compatibilityController(DefaultListModel<String> selectedList) throws Exception
-
 
     public void show() {
         frame.setVisible(true);
